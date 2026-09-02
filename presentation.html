@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>LSA Onboarding Gate | Project Presentation</title>
+  <style>
+    @page { size: 16in 9in; margin: 0; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Arial, sans-serif; color: #202033; background: #111; }
+    .slide { width: 16in; height: 9in; padding: 70px 90px; page-break-after: always;
+      position: relative; overflow: hidden; background: linear-gradient(135deg,#6d5ce7,#a18cf0); }
+    .slide::after { content: ""; position: absolute; width: 360px; height: 360px; border-radius: 50%;
+      right: -100px; top: -150px; background: rgba(255,255,255,.12); }
+    .card { position: relative; z-index: 1; background: #fff; border-radius: 28px; padding: 38px 46px;
+      height: 100%; box-shadow: 0 20px 50px rgba(50,35,130,.2); }
+    h1 { font-size: 54px; margin: 0 0 14px; color: #fff; }
+    h2 { font-size: 38px; margin: 0 0 24px; color: #5746d5; }
+    h3 { font-size: 25px; color: #5746d5; margin: 18px 0 8px; }
+    p, li, td { font-size: 21px; line-height: 1.45; }
+    .subtitle { color: rgba(255,255,255,.9); font-size: 25px; }
+    .identity { margin-top: 55px; color: #fff; font-size: 22px; line-height: 1.8; }
+    .eyebrow { color: #7568e9; letter-spacing: 2px; font-weight: bold; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+    .pill { display: inline-block; padding: 10px 18px; border-radius: 20px; background: #f0eeff; color: #5746d5; font-weight: bold; margin: 5px; }
+    pre { background: #f5f4fa; border-radius: 14px; padding: 18px; font-size: 18px; white-space: pre-wrap; }
+    table { width: 100%; border-collapse: collapse; } th, td { text-align: left; padding: 13px; border-bottom: 1px solid #ddd; } th { color: #5746d5; }
+    .demo { padding: 22px; border: 3px solid #6d5ce7; border-radius: 18px; color: #5746d5; font-size: 24px; word-break: break-all; }
+    .footer { position: absolute; bottom: 22px; right: 45px; color: rgba(255,255,255,.8); font-size: 14px; }
+    .card .footer { color: #888; }
+  </style>
+</head>
+<body>
+  <section class="slide">
+    <h1>LSA Onboarding Gate</h1><div class="subtitle">HabotConnect Data Compliance</div>
+    <div class="identity"><b>Debmalya Chatterjee</b><br>debmalyachatterjee206@gmail.com<br>+917908256367</div>
+    <div class="footer">Project Presentation · 2026</div>
+  </section>
+  <section class="slide"><div class="card"><div class="eyebrow">01 · PROJECT BRIEF</div><h2>Compliance-first onboarding</h2>
+    <p>A Flutter mobile screen that verifies LSA records before submission and protects uncertain data through deterministic fail-closed behavior.</p>
+    <div class="grid"><div><h3>Core objective</h3><p>Make lineage verification visible, traceable, and safe at the point of entry.</p></div><div><h3>Design direction</h3><p>Login/signup-inspired gradient, rounded card, soft fields, and a clear primary action.</p></div></div>
+    <h3>Requirements covered</h3><span class="pill">UI</span><span class="pill">HTTP API</span><span class="pill">Lineage</span><span class="pill">Fail-closed</span><span class="pill">Friction tracking</span>
+    <div class="footer">2</div></div></section>
+  <section class="slide"><div class="card"><div class="eyebrow">02 · DEMO</div><h2>Mandatory video walkthrough</h2>
+    <p>Open the shareable recording below. The 2–3 minute walkthrough should demonstrate all three required test cases:</p>
+    <ol><li>Valid submission → Success</li><li>Missing predecessor → Quarantined without network call</li><li>Null/failed API response → purge, lock, and quarantine</li></ol>
+    <div class="demo">https://drive.google.com/file/d/1XuNWcVOpnMzc6TYLKoMqv1Eu1xrnP3oi/view?usp=drive_link</div>
+    <p><b>Before submission:</b> confirm Google Drive sharing is set to “Anyone with the link can view”.</p><div class="footer">3</div></div></section>
+  <section class="slide"><div class="card"><div class="eyebrow">03 · ARCHITECTURE</div><h2>Small, explicit code boundaries</h2>
+    <div class="grid"><div><h3>App shell</h3><p><b>MyApp</b> owns theme, title, and production-safe banner configuration.</p><h3>Screen boundary</h3><p><b>LsaVerificationScreen</b> is the public integration surface and accepts an injectable HTTP client/endpoint.</p></div><div><h3>State boundary</h3><p>The private stateful form owns controllers, status, timers, and lifecycle cleanup.</p><h3>Network boundary</h3><p>One submit path builds the payload, applies mandatory headers, validates the response, and maps failures to quarantine.</p></div></div>
+    <p><b>“Byt” standard:</b> boundaries are kept small, behavior is explicit, and dependencies are injected where external behavior must be tested.</p><div class="footer">4</div></div></section>
+  <section class="slide"><div class="card"><div class="eyebrow">04 · UI</div><h2>Designed for confidence</h2>
+    <div class="grid"><div><h3>Visual system</h3><ul><li>Purple gradient background</li><li>Elevated white card with rounded corners</li><li>Shield icon for compliance trust</li><li>Semantic status colors</li></ul></div><div><h3>Interaction states</h3><ul><li>Idle: ready to verify</li><li>Processing: request in flight</li><li>Success: verification accepted</li><li>Quarantined: action locked</li></ul></div></div><div class="footer">5</div></div></section>
+  <section class="slide"><div class="card"><div class="eyebrow">05 · API MAPPING</div><h2>Traceable request contract</h2>
+    <pre>POST https://api.habotconnect.com/v1/compliance/verify
+Content-Type: application/json
+x-trace-id: 8f3d1b2a-4c9e-4a11-b8d2-9901ef23a011
+x-logic-hash: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</pre>
+    <pre>{"predecessor_id":"PRED-9982-XYZ","lsa_id":"LSA-7049",
+"parent_consent_code":"PCC-2026-9901","timestamp_utc":"<UTC>"}</pre><div class="footer">6</div></div></section>
+  <section class="slide"><div class="card"><div class="eyebrow">06 · SECURITY</div><h2>Fail-closed by default</h2>
+    <table><tr><th>Condition</th><th>Action</th></tr><tr><td>Empty predecessor</td><td>Throw lineage failure, quarantine immediately, never call API</td></tr><tr><td>Timeout / HTTP 500</td><td>Purge volatile fields, lock button, quarantine</td></tr><tr><td>Invalid JSON / null status</td><td>Do not infer success; apply same quarantine path</td></tr></table>
+    <p>Only a successful HTTP response with a non-null <code>status</code> can transition the UI to Success.</p><div class="footer">7</div></div></section>
+  <section class="slide"><div class="card"><div class="eyebrow">07 · DATA LINEAGE</div><h2>Orphan data never leaves the device</h2>
+    <p>The predecessor ID is the gatekeeper for lineage. Validation occurs before form submission and before the HTTP client is invoked.</p>
+    <pre>if (predecessor.trim().isEmpty) {
+  quarantine();
+  return; // no network call
+}</pre>
+    <p>After an uncertain response, all volatile controllers are cleared and the submission control remains disabled.</p><div class="footer">8</div></div></section>
+  <section class="slide"><div class="card"><div class="eyebrow">08 · OBSERVABILITY</div><h2>Friction tracking without blocking flow</h2>
+    <p>Focusing the consent field starts a five-second timer. Typing or submitting cancels it. Hesitation emits a structured UTC event:</p>
+    <div class="demo">[UI_FRICTION_LOG] Timestamp: &lt;UTC&gt; | Field: parent_consent_code | Hesitation Duration: 5.0s</div>
+    <p>The timer is canceled during disposal to avoid lifecycle leaks.</p><div class="footer">9</div></div></section>
+  <section class="slide"><div class="card"><div class="eyebrow">09 · QUALITY</div><h2>Tested behavior, not just visuals</h2>
+    <div class="grid"><div><h3>Widget coverage</h3><ul><li>Valid request reaches Success</li><li>Mandatory metadata is attached</li><li>Missing lineage skips network</li></ul></div><div><h3>Failure coverage</h3><ul><li>Null API status quarantines</li><li>Button becomes locked</li><li>Fields remain in the tree after purge</li></ul></div></div>
+    <pre>flutter analyze
+flutter test</pre><div class="footer">10</div></div></section>
+  <section class="slide"><div class="card"><div class="eyebrow">10 · DELIVERY</div><h2>Run, review, and submit</h2>
+    <pre>flutter pub get
+flutter run</pre><p>Source: <b>lib/main.dart</b><br>Tests: <b>test/widget_test.dart</b><br>Documentation: <b>README.md</b></p>
+    <h3>Final submission checklist</h3><ol><li>Upload this PDF to Google Drive and set viewer access.</li><li>Set the demo video to “Anyone with the link can view”.</li><li>Submit exactly the presentation link and the official demo video link.</li></ol><div class="footer">11</div></div></section>
+</body>
+</html>
